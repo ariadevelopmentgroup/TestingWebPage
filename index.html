@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ապահով Կայք</title>
+    <style>
+        /* Կանխում ենք տեքստի ընտրումը */
+        * {
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+        
+        /* Էկրանի սքրինշոթի ժամանակ մթնում */
+        .blur-screen {
+            filter: blur(10px);
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Բարի գալուստ անվտանգ կայք</h1>
+    <p>Այս կայքը պաշտպանված է պատճենման և գաղտնիության խախտման դեմ:</p>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Կանխում ենք մկնիկի աջ սեղմումը
+            document.addEventListener("contextmenu", function (e) {
+                e.preventDefault();
+            });
+
+            // Կանխում ենք մկնիկի ձախ և աջ սեղմումները
+            document.addEventListener("mousedown", function (e) {
+                if (e.button === 2 || e.button === 0) {
+                    e.preventDefault();
+                }
+            });
+
+            // Կանխում ենք էջի աղբյուրի դիտումը և Inspect Element-ը
+            document.addEventListener("keydown", function (e) {
+                if (
+                    e.key === "F12" ||
+                    (e.ctrlKey && e.shiftKey && (e.key === "I" || e.key === "J" || e.key === "C")) ||
+                    (e.ctrlKey && e.key === "U") ||
+                    (e.ctrlKey && e.key === "S") ||
+                    (e.ctrlKey && e.key === "P")
+                ) {
+                    e.preventDefault();
+                }
+            });
+
+            // Կանխում ենք տեքստի պատճենումը
+            document.addEventListener("copy", function (e) {
+                e.preventDefault();
+            });
+
+            // Կանխում ենք բովանդակության տեղադրումը
+            document.addEventListener("paste", function (e) {
+                e.preventDefault();
+            });
+
+            // Կանխում ենք "Save As" և պատկերների պահպանումը
+            document.addEventListener("dragstart", function (e) {
+                e.preventDefault();
+            });
+
+            document.addEventListener("mousedown", function (e) {
+                if (e.target.tagName === "IMG") {
+                    e.preventDefault();
+                }
+            });
+
+            // Կանխում ենք էկրանի սքրինշոթի օգտագործումը
+            function detectScreenshot() {
+                document.body.classList.add("blur-screen");
+                setTimeout(() => {
+                    document.body.classList.remove("blur-screen");
+                }, 3000);
+            }
+
+            window.onblur = function () {
+                setTimeout(detectScreenshot, 100);
+            };
+        });
+    </script>
+
+    <!-- Եթե օգտատերը անջատում է JavaScript-ը -->
+    <noscript>
+        <i>Javascript-ը պարտադիր է!</i>
+    </noscript>
+</body>
+</html>
