@@ -12,11 +12,32 @@
             -moz-user-select: none;
             -ms-user-select: none;
         }
-        
+
         /* Էկրանի սքրինշոթի ժամանակ մթնում */
         .blur-screen {
-            filter: blur(10px);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+            z-index: 9999;
             pointer-events: none;
+        }
+
+        /* Եթե JavaScript-ը չի ակտիվացված */
+        .no-js-warning {
+            display: none;
+        }
+
+        .no-js i {
+            color: red;
         }
     </style>
 </head>
@@ -72,22 +93,47 @@
                 }
             });
 
-            // Կանխում ենք էկրանի սքրինշոթի օգտագործումը
+            // Սքրինշոթի դեպքում մթնում
+            let screenshotTimeout;
+
             function detectScreenshot() {
-                document.body.classList.add("blur-screen");
+                const blurScreen = document.createElement('div');
+                blurScreen.className = 'blur-screen';
+                blurScreen.textContent = 'Մի գողացիր!'; //No Screenshot
+                document.body.appendChild(blurScreen);
+
+                clearTimeout(screenshotTimeout);
+                screenshotTimeout = setTimeout(function() {
+                    blurScreen.remove();
+                }, 3000); // մթնում է 3 վայրկյան
+
+                // Պահանջում ենք ցուցադրման համար, երբ սքրինշոթ են անում սմարթֆոններով
                 setTimeout(() => {
-                    document.body.classList.remove("blur-screen");
-                }, 3000);
+                    document.body.classList.add('blur-screen');
+                }, 100);
+            }
+
+            // Անհրաժեշտ է ախտորոշել, թե երբ տեղի է ունենում սքրինշոթ
+            function detectTouch() {
+                if (navigator.userAgent.match(/iPhone|iPad|iPod|Android/i)) {
+                    document.body.addEventListener('touchstart', function (e) {
+                        if (e.touches.length > 0) {
+                            detectScreenshot();
+                        }
+                    });
+                }
             }
 
             window.onblur = function () {
                 setTimeout(detectScreenshot, 100);
             };
+
+            detectTouch();
         });
     </script>
 
     <!-- Եթե օգտատերը անջատում է JavaScript-ը -->
-    <noscript>
+    <noscript class="no-js-warning">
         <i>Javascript-ը պարտադիր է!</i>
     </noscript>
 </body>
