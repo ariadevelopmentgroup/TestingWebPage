@@ -31,7 +31,7 @@
             pointer-events: none;
         }
 
-        /* Եթե JavaScript-ը չի ակտիվացված */
+        /* Հաղորդագրություն, երբ JavaScript-ը անջատված է */
         .no-js-warning {
             display: none;
         }
@@ -63,21 +63,23 @@
             document.addEventListener("keydown", function (e) {
                 if (
                     e.key === "F12" ||
-                    (e.ctrlKey && e.shiftKey && (e.key === "I" || e.key === "J" || e.key === "C")) ||
+                    (e.ctrlKey && e.shiftKey && (e.key === "I" || e.key === "J")) ||
                     (e.ctrlKey && e.key === "U") ||
                     (e.ctrlKey && e.key === "S") ||
-                    (e.ctrlKey && e.key === "P")
+                    (e.ctrlKey && e.key === "P") ||
+                    (e.ctrlKey && e.key === "C") ||  // Ctrl + C
+                    (e.ctrlKey && e.key === "V") ||  // Ctrl + V
+                    (e.ctrlKey && e.key === "A") // Ctrl + A
                 ) {
                     e.preventDefault();
                 }
             });
 
-            // Կանխում ենք տեքստի պատճենումը
+            // Կանխում ենք տեքստի պատճենումը (Copy) և տեղադրումը (Paste)
             document.addEventListener("copy", function (e) {
                 e.preventDefault();
             });
 
-            // Կանխում ենք բովանդակության տեղադրումը
             document.addEventListener("paste", function (e) {
                 e.preventDefault();
             });
@@ -93,13 +95,13 @@
                 }
             });
 
-            // Սքրինշոթի դեպքում մթնում
+            // Սքրինշոթի կանխարգելում
             let screenshotTimeout;
 
             function detectScreenshot() {
                 const blurScreen = document.createElement('div');
                 blurScreen.className = 'blur-screen';
-                blurScreen.textContent = 'Մի գողացիր!'; //No Screenshot
+                blurScreen.textContent = 'No Screenshot';
                 document.body.appendChild(blurScreen);
 
                 clearTimeout(screenshotTimeout);
