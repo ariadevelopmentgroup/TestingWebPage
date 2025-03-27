@@ -30,8 +30,10 @@
     </style>
 </head>
 <body>
+    <div align="center">
     <h1>Բարի գալուստ մեր կայք</h1>
     <p>Այս կայքը պաշտպանված է պատճենման և գաղտնիության խախտման դեմ:</p>
+    </div>
 
     <script>
         // Էկրանի մթնում սքրինշոթի արգելման համար
@@ -41,7 +43,7 @@
         function detectScreenshot() {
             const blurScreen = document.createElement('div');
             blurScreen.className = 'blur-screen';
-            blurScreen.textContent = 'No Screenshot';
+            blurScreen.textContent = 'Մի գողացիր այն, ինչ քեզ չի պատկանում!'; //No Screenshot
             document.body.appendChild(blurScreen);
 
             clearTimeout(screenshotTimeout);
